@@ -1,39 +1,31 @@
-import joblib
 from asr import transcribe
-from confusion import has_confusion, get_candidates
-from preprocess import get_window
-from embed import encode
-from resolver import resolve
+from normalize import normalize
+from resolver import resolve_text
+from mic import record_audio
 
-# load trained model once
-model = joblib.load("trained_model.pkl")
+def speech_to_command(audio_file):
+    """
+    Full pipeline:
+    Audio → ASR → Normalize → Resolve → Final text
+    """
+    # Step 1: Speech to text
+    text = transcribe(audio_file)
 
-def process(audio_path):
-    text = transcribe(audio_path)
+    # Step 2: Normalize common ASR mistakes
+    text = normalize(text)
 
-    words = text.split()
+    # Step 3: Apply dictionary corrections
+    final_text = resolve_text(text)
 
-    # ⚡ FAST EXIT (very important)
-    if not has_confusion(words):
-        return text
-
-    for i, w in enumerate(words):
-        candidates = get_candidates(w)
-
-        if candidates:
-            # ⚡ use small context window
-            context = get_window(words, i)
-
-            vec = encode(context)
-
-            prediction = model.predict(vec)
-
-            words = resolve(words, i, prediction)
-
-    return " ".join(words)
+    return final_text
 
 
 if __name__ == "__main__":
-    audio_file = "sample.wav"
-    output = process(audio_file)
-    print("FINAL:", output)
+    # Input audio file
+    audio_file = record_audio()
+
+    # Process and get final corrected output
+    output = speech_to_command(audio_file)
+
+    # ✅ Only final corrected text is displayed
+    print(output)

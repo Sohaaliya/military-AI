@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Command Console</title>
+
+    <style>
+        body {
+            background: #0a0d0a;
+            color: #8fbf8f;
+            font-family: "Courier New", monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 600px;
+            margin: 100px auto;
+            border: 1px solid #2e4d2e;
+            padding: 30px;
+            background: #0f140f;
+            box-shadow: 0 0 10px rgba(0, 255, 100, 0.1);
+        }
+
+        .title {
+            font-size: 20px;
+            border-bottom: 1px solid #2e4d2e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .mic-btn {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #4caf50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 20px auto;
+            transition: 0.2s;
+        }
+
+        .mic-btn:hover {
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .mic-btn.active {
+            border-color: red;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 14px;
+            color: #6a8f6a;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #2e4d2e;
+            min-height: 50px;
+            background: #0a0d0a;
+        }
+
+        .label {
+            font-size: 12px;
+            color: #5a7a5a;
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="title">COMMAND INPUT TERMINAL</div>
+
+    <div class="mic-btn" id="mic">REC</div>
+
+    <div class="status" id="status">IDLE</div>
+
+    <div class="output">
+        <div class="label">OUTPUT</div>
+        <div id="result">--</div>
+    </div>
+
+</div>
+
+<script>
+let mediaRecorder;
+let audioChunks = [];
+
+const mic = document.getElementById("mic");
+const status = document.getElementById("status");
+const result = document.getElementById("result");
+
+mic.onclick = async () => {
+
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.start();
+
+    mic.classList.add("active");
+    status.innerText = "RECORDING...";
+
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = e => {
+        audioChunks.push(e.data);
+    };
+
+    setTimeout(() => {
+        mediaRecorder.stop();
+    }, 3000);
+
+    mediaRecorder.onstop = async () => {
+        mic.classList.remove("active");
+        status.innerText = "PROCESSING...";
+
+        const blob = new Blob(audioChunks, { type: 'audio/wav' });
+
+        const formData = new FormData();
+        formData.append("file", blob, "audio.wav");
+
+        const res = await fetch("http://127.0.0.1:8000/process-audio", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        result.innerText = data.output;
+        status.innerText = "READY";
+    };
+};
+</script>
+
+</body>
+</html>
