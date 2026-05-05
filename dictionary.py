@@ -1,193 +1,153 @@
 MAPPING = {
-    # Core normalization
+
+    # 🔵 CORE NORMALIZATION
     "core": "corps",
     "corp": "corps",
     "corpss": "corps",
 
-    # Rank normalization
+    # 🔵 RANKS (safe normalization)
     "lieutenant": "lt",
     "leftenant": "lt",
     "leftline": "lt",
-    "lt": "lt",
 
     "lieutenant general": "lt gen",
     "lt general": "lt gen",
+
     "general": "gen",
-    "gen": "gen",
 
     "lieutenant colonel": "lt col",
     "lt colonel": "lt col",
-    "lt col": "lt col",
+
     "colonel": "col",
-    "col": "col",
 
     "subedar major": "sub maj",
-    "sub maj": "sub maj",
-
     "naib subedar": "nb sub",
-    "nb sub": "nb sub",
 
     "risaldar havildar major": "rhm",
-    "rhm": "rhm",
-
     "company havildar major": "chm",
-    "chm": "chm",
 
     "havildar": "hav",
-    "hav": "hav",
-
     "lance havildar": "l hav",
-    "l hav": "l hav",
 
     "naik": "nk",
-    "nk": "nk",
-
     "lance naik": "l nk",
-    "l nk": "l nk",
 
     "sepoy": "sep",
-    "sep": "sep",
     "sepoys": "sep",
-    "seepai": "sep",     # common ASR mistake
+
+    # 🔵 ASR ERRORS (SAFE)
+    "seepai": "sep",
     "sepai": "sep",
 
-    # Divisions
+    # 🔵 DIVISION NORMALIZATION
     "division": "div",
-    "div": "div",
+    "dew": "div",
+    "due": "div",
+
     "1 armored division": "1 armd div",
-    "1 armd div": "1 armd div",
     "2 mountain division": "2 mtn div",
-    "2 mtn div": "2 mtn div",
     "3 infantry division": "3 inf div",
-    "3 inf div": "3 inf div",
 
-    # CIF
+    # 🔵 CIF
     "counter insurgency force delta": "cif d",
-    "cif d": "cif d",
     "counter insurgency force kilo": "cif k",
-    "cif k": "cif k",
     "counter insurgency force romeo": "cif r",
-    "cif r": "cif r",
     "counter insurgency force uniform": "cif u",
-    "cif u": "cif u",
     "counter insurgency force victor": "cif v",
-    "cif v": "cif v",
 
-    # Corps / services
+    # 🔵 CORPS / SERVICES
     "intelligence corps": "int corps",
-    "int corps": "int corps",
     "army service corps": "asc",
-    "asc": "asc",
     "military nursing service": "mns",
-    "mns": "mns",
     "army medical corps": "amc",
-    "amc": "amc",
     "air defence corps": "ad corps",
-    "ad corps": "ad corps",
     "army ordnance corps": "aoc",
-    "aoc": "aoc",
     "electronics and mechanical engineers": "eme",
-    "eme": "eme",
     "remount veterinary corps": "rvc",
-    "rvc": "rvc",
     "army education corps": "aec",
-    "aec": "aec",
     "corps of military police": "cmp",
-    "cmp": "cmp",
     "judge advocate general": "jag",
-    "jag": "jag",
     "army physical training corps": "aptc",
-    "aptc": "aptc",
     "army postal service": "aps",
-    "aps": "aps",
     "defence security corps": "dsc",
-    "dsc": "dsc",
 
-    # Units
+    # 🔵 UNITS
     "armored regiment": "armd regt",
-    "armd regt": "armd regt",
+
     "army air defence": "aad",
-    "aad": "aad",
     "military engineering services": "mes",
-    "mes": "mes",
+
     "maratha light infantry": "maratha li",
-    "maratha li": "maratha li",
     "rajputana rifles": "raj rif",
-    "raj rif": "raj rif",
+
     "rajput regiment": "rajput",
-    "rajput": "rajput",
+    "regiment": "regt",
+
+    # 🔵 ASR ERRORS FOR REGIMENT
+    "richmond": "regt",
+    "rich man": "regt",
+    "richment": "regt",
+    "ragiment": "regt",
+    "regimant": "regt",
+    "regment": "regt",
+
+    # 🔵 INFANTRY (PHRASE SAFE)
     "sikh light infantry": "sikh li",
-    "sikh li": "sikh li",
+    "seek light infantry": "sikh li",
+
     "garhwal rifles": "garh rif",
-    "garh rif": "garh rif",
+
     "jammu and kashmir rifles": "jak rif",
-    "jak rif": "jak rif",
+
     "jammu and kashmir light infantry": "jak li",
-    "jak li": "jak li",
+    "jak light infantry": "jak li",
 
-    # Logistics
+    # 🔵 LOGISTICS
     "ammunition": "amn",
-    "amn": "amn",
     "forward ordnance depot": "fod",
-    "fod": "fod",
+
     "workshop company": "wksp coy",
-    "wksp coy": "wksp coy",
     "station workshop": "stn wksp",
-    "stn wksp": "stn wksp",
     "provost unit": "pro unit",
-    "pro unit": "pro unit",
 
-    # Special
+    # 🔵 SPECIAL CASES
     "one by three gorkha rifles": "1/3 gr",
-    "1/3 gr": "1/3 gr",
-    "70 medium regiment": "70 med regt",
-    "70 med regt": "70 med regt",
+    "13 gorkha rifles": "1/3 gr",
 
-    # Roles
+    "70 medium regiment": "70 med regt",
+
+    # 🔵 ROLES (KEEP CAREFUL)
     "administration": "adm",
-    "adm": "adm",
     "automotive technician": "auto tech",
-    "auto tech": "auto tech",
+
     "indian air force": "iaf",
-    "iaf": "iaf",
+
     "chief of army staff": "coas",
-    "coas": "coas",
     "military assistant to chief of army staff": "ma to coas",
-    "ma to coas": "ma to coas",
+
     "brigadier army medical corps": "brig kramc",
-    "brig kramc": "brig kramc",
     "vice chief of army staff": "vcoas",
-    "vcoas": "vcoas",
+
     "brigadier in charge": "brig ic",
-    "brig ic": "brig ic",
     "brigadier fire power": "brig fp",
-    "brig fp": "brig fp",
+
     "director general military operations": "dgmo",
-    "dgmo": "dgmo",
     "brigadier military intelligence": "brig mi",
-    "brig mi": "brig mi",
+
     "brigadier training": "brig t",
-    "brig t": "brig t",
     "director general artillery": "dg arty",
-    "dg arty": "dg arty",
+
     "quartermaster general": "qmg",
-    "qmg": "qmg",
     "military secretary": "ms",
-    "ms": "ms",
+
     "deputy general officer commanding": "dy goc",
-    "dy goc": "dy goc",
+
     "liaison officer": "lo",
-    "lo": "lo",
-    "director": "dir",
-    "dir": "dir",
+
     "commandant": "comdt",
-    "comdt": "comdt",
     "commanding officer": "co",
-    "co": "co",
+
     "second in command": "2ic",
-    "2ic": "2ic",
-    "adjutant": "adjt",
-    "adjt": "adjt",
-    "branch": "br",
-    "br": "br"
+
+    "adjutant": "adjt"
 }

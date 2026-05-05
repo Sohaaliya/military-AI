@@ -13,7 +13,7 @@ def record_audio(filename="input.wav", duration=4, fs=16000):
     )
     sd.wait()
 
-    # ✅ Safe normalization
+    
     max_val = np.max(np.abs(recording))
     if max_val > 0:
         recording = recording / max_val
