@@ -1,6 +1,7 @@
 import whisper
 
-model = whisper.load_model("medium")
+model = whisper.load_model("medium").to("cuda")
+
 
 def transcribe(audio_path):
 
@@ -11,9 +12,11 @@ def transcribe(audio_path):
 
         temperature=0,
 
-        beam_size=5,
+        beam_size=3,
 
-        best_of=5,
+        best_of=3,
+
+        fp16=True,
 
         initial_prompt="""
         Military communication involving

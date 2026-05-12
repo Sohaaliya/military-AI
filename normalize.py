@@ -2,10 +2,14 @@ import re
 from rapidfuzz import process
 from dictionary import MAPPING
 
-# All valid military vocabulary
+# ---------------------------------
+# ALL VALID VOCABULARY
+# ---------------------------------
 VOCAB = list(set(MAPPING.keys()) | set(MAPPING.values()))
 
-# Protect normal English words from wrong military correction
+# ---------------------------------
+# WORDS THAT SHOULD NEVER CHANGE
+# ---------------------------------
 PROTECTED_WORDS = {
     "core",
     "earth",
@@ -16,13 +20,40 @@ PROTECTED_WORDS = {
     "normal",
     "ready",
     "move",
-    "ahead"
+    "ahead",
+    "forward",
+    "report",
+    "quickly",
+    "rapidly"
 }
 
+# ---------------------------------
+# SHORT MILITARY ABBREVIATIONS
+# DO NOT FUZZY MATCH THESE
+# ---------------------------------
+SHORT_FORMS = {
+    "rhm",
+    "co",
+    "lo",
+    "ms",
+    "br",
+    "nk",
+    "lt",
+    "gen",
+    "fod",
+    "mes",
+    "asc",
+    "aec",
+    "aps",
+    "div",
+    "corps",
+    "cif",
+    "adm"
+}
 
-# -----------------------------
-# FIX 1: numeric patterns
-# -----------------------------
+# ---------------------------------
+# FIX 1: NUMERIC PATTERNS
+# ---------------------------------
 def fix_numbers(text):
 
     # 1x3 or 1 x 3 → 1/3
@@ -38,9 +69,9 @@ def fix_numbers(text):
     return text
 
 
-# -----------------------------
-# FIX 2: joined military words
-# -----------------------------
+# ---------------------------------
+# FIX 2: JOINED WORDS
+# ---------------------------------
 def fix_joined_words(text):
 
     fixes = {
@@ -55,25 +86,25 @@ def fix_joined_words(text):
     return text
 
 
-# -----------------------------
-# FIX 3: plural handling
-# -----------------------------
+# ---------------------------------
+# FIX 3: SIMPLE PLURAL HANDLING
+# ---------------------------------
 def fix_plural(word):
 
-    if word.endswith("s") and len(word) > 3:
+    if word.endswith("s") and len(word) > 4:
         return word[:-1]
 
     return word
 
 
-# -----------------------------
+# ---------------------------------
 # MAIN NORMALIZATION
-# -----------------------------
+# ---------------------------------
 def normalize(text):
 
     text = text.lower()
 
-    # Apply fixes early
+    # Apply preprocessing
     text = fix_numbers(text)
     text = fix_joined_words(text)
 
@@ -88,20 +119,43 @@ def normalize(text):
 
         original = word
 
+        # ---------------------------------
         # Skip protected words
+        # ---------------------------------
         if word in PROTECTED_WORDS:
             result.append(word)
             continue
 
-        # Ignore very short words
-        if len(word) <= 2:
+        # ---------------------------------
+        # Skip short abbreviations
+        # ---------------------------------
+        if word in SHORT_FORMS:
             result.append(word)
             continue
 
+        # ---------------------------------
+        # Ignore very short words
+        # Prevent crazy fuzzy matching
+        # ---------------------------------
+        if len(word) <= 4:
+            result.append(word)
+            continue
+
+        # ---------------------------------
+        # Exact dictionary word exists
+        # ---------------------------------
+        if word in MAPPING:
+            result.append(word)
+            continue
+
+        # ---------------------------------
         # Fix plural
+        # ---------------------------------
         normalized_word = fix_plural(word)
 
-        # Fuzzy match
+        # ---------------------------------
+        # Fuzzy matching
+        # ---------------------------------
         match = process.extractOne(
             normalized_word,
             VOCAB
@@ -111,8 +165,8 @@ def normalize(text):
 
             best_match, score, _ = match
 
-            # Strict threshold
-            if score >= 90:
+            # STRICT threshold
+            if score >= 92:
                 result.append(best_match)
             else:
                 result.append(original)
@@ -122,15 +176,16 @@ def normalize(text):
 
     final_text = " ".join(result)
 
-    # -----------------------------
-    # Cleanup duplicate phrases
-    # -----------------------------
+    # ---------------------------------
+    # CLEANUP DUPLICATES
+    # ---------------------------------
     cleanup_rules = {
         "li light infantry": "li",
         "rif rifles": "rif",
         "regt regiment": "regt",
         "div division": "div",
         "co commanding officer": "co",
+        "auto tech automotive technician": "auto tech",
     }
 
     for wrong, correct in cleanup_rules.items():

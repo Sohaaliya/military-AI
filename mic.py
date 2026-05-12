@@ -2,7 +2,7 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 import numpy as np
 
-def record_audio(filename="input.wav", duration=4, fs=16000):
+def record_audio(filename="input.wav", duration=10, fs=16000):
     print("🎙️ Speak clearly...")
 
     recording = sd.rec(

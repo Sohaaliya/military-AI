@@ -22,7 +22,7 @@ def speech_to_command(audio_file):
 
 if __name__ == "__main__":
     # Input audio file
-    audio_file = record_audio()
+    audio_file = record_audio(duration =10)
 
     # Process and get final corrected output
     output = speech_to_command(audio_file)

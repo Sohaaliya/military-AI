@@ -24,6 +24,10 @@ MAPPING = {
     "naib subedar": "nb sub",
 
     "risaldar havildar major": "rhm",
+    "rison major": "rhm",
+    "rison": "rhm",
+    "rissan": "rhm",
+    "rissar": "rhm",
     "company havildar major": "chm",
 
     "havildar": "hav",
@@ -43,10 +47,14 @@ MAPPING = {
     "division": "div",
     "dew": "div",
     "due": "div",
+    "do":"div",
 
     "1 armored division": "1 armd div",
+    "one armored division": "1 armd div",
     "2 mountain division": "2 mtn div",
+    "two mountain division": "2 mtn div",
     "3 infantry division": "3 inf div",
+    "three infantry division": "3 inf div",
 
     # 🔵 CIF
     "counter insurgency force delta": "cif d",
@@ -54,6 +62,7 @@ MAPPING = {
     "counter insurgency force romeo": "cif r",
     "counter insurgency force uniform": "cif u",
     "counter insurgency force victor": "cif v",
+    "counter insurgency force viktor":"cif v",
 
     # 🔵 CORPS / SERVICES
     "intelligence corps": "int corps",
@@ -94,6 +103,9 @@ MAPPING = {
     # 🔵 INFANTRY (PHRASE SAFE)
     "sikh light infantry": "sikh li",
     "seek light infantry": "sikh li",
+    "seek lite infantry": "sikh li",
+    "sik light infantry": "sikh li",
+    "sikh lite infantry": "sikh li",
 
     "garhwal rifles": "garh rif",
 
