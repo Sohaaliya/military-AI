@@ -10,9 +10,11 @@ def speech_to_command(audio_file):
     """
     #  Speech to text
     text = transcribe(audio_file)
+    print(f"DEBUG ASR Output: '{text}'")
 
     #  Normalize common ASR mistakes
     text = normalize(text)
+    print(f"DEBUG Normalized Output: '{text}'")
 
     #  Apply dictionary corrections
     final_text = resolve_text(text)
@@ -22,7 +24,7 @@ def speech_to_command(audio_file):
 
 if __name__ == "__main__":
     # Input audio file
-    audio_file = record_audio(duration =10)
+    audio_file = record_audio()
 
     # Process and get final corrected output
     output = speech_to_command(audio_file)

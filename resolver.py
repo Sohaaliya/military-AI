@@ -1,5 +1,8 @@
 import re
+from rapidfuzz import process, fuzz
 from dictionary import MAPPING
+
+MAPPING_KEYS = list(MAPPING.keys())
 
 def resolve_text(text):
 
@@ -12,6 +15,15 @@ def resolve_text(text):
     words = text.split()
 
     result = []
+    KEEP_WORDS = {
+    "to",
+    "from",
+    "at",
+    "in",
+    "on",
+    "with",
+    "and"
+}
     i = 0
 
     # Try longest phrases first
@@ -28,15 +40,24 @@ def resolve_text(text):
 
                 phrase = " ".join(words[i:i+size])
 
+                # 1. Exact match
                 if phrase in MAPPING:
-
-                    replacement = MAPPING[phrase]
-
-                    result.append(replacement)
-
+                    result.append(MAPPING[phrase])
                     i += size
                     matched = True
                     break
+                
+                # 2. Safe Phrase Fuzzy Match (fuzz.ratio prevents false positives)
+                if len(phrase) >= 5:
+                    match = process.extractOne(phrase, MAPPING_KEYS, scorer=fuzz.ratio)
+                    if match:
+                        best_match, score, _ = match
+                        # Catch exact phonetic similarities without scrambling non-military words
+                        if score >= 80:
+                            result.append(MAPPING[best_match])
+                            i += size
+                            matched = True
+                            break
 
         # No match found
         if not matched:

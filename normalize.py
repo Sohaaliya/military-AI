@@ -56,8 +56,21 @@ SHORT_FORMS = {
 # ---------------------------------
 def fix_numbers(text):
 
+    # Whisper sometimes says 2 instead of to
+    # Example:
+    # report 2 lt gen -> report to lt gen
+    text = re.sub(
+        r'\b(report|come|go|return|send|talk|move|proceed)\s+2\b',
+        r'\1 to',
+        text
+    )
+
     # 1x3 or 1 x 3 → 1/3
-    text = re.sub(r'(\d)\s*x\s*(\d)', r'\1/\2', text)
+    text = re.sub(
+        r'(\d)\s*x\s*(\d)',
+        r'\1/\2',
+        text
+    )
 
     # 13 gorkha rifles → 1/3 gorkha rifles
     text = re.sub(
@@ -135,7 +148,6 @@ def normalize(text):
 
         # ---------------------------------
         # Ignore very short words
-        # Prevent crazy fuzzy matching
         # ---------------------------------
         if len(word) <= 4:
             result.append(word)
@@ -174,7 +186,22 @@ def normalize(text):
         else:
             result.append(original)
 
+    # ---------------------------------
+    # JOIN FINAL TEXT
+    # ---------------------------------
     final_text = " ".join(result)
+
+    # ---------------------------------
+    # Restore missing "to"
+    # Example:
+    # report lt gen -> report to lt gen
+    # move cif u -> move to cif u
+    # ---------------------------------
+    final_text = re.sub(
+        r'\b(report|come|go|return|send|talk|move|proceed)\s+(lt gen|lt col|gen|col|mns|asc|amc|eme|aad|co|adjt|fod|cif(?:\s+[a-z])?)\b',
+        r'\1 to \2',
+        final_text
+    )
 
     # ---------------------------------
     # CLEANUP DUPLICATES

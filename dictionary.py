@@ -21,6 +21,9 @@ MAPPING = {
     "colonel": "col",
 
     "subedar major": "sub maj",
+    "subhedar major": "sub maj",
+    "stupid heart major": "sub maj",
+    "subedaar major": "sub maj",
     "naib subedar": "nb sub",
 
     "risaldar havildar major": "rhm",
@@ -35,6 +38,8 @@ MAPPING = {
 
     "naik": "nk",
     "lance naik": "l nk",
+    "lansnayak": "l nk",
+    "lance nayak": "l nk",
 
     "sepoy": "sep",
     "sepoys": "sep",
@@ -127,6 +132,7 @@ MAPPING = {
     "13 gorkha rifles": "1/3 gr",
 
     "70 medium regiment": "70 med regt",
+    "seventy medium regiment":"70 med regt",
 
     # 🔵 ROLES (KEEP CAREFUL)
     "administration": "adm",

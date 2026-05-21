@@ -1,39 +1,18 @@
-import whisper
+from faster_whisper import WhisperModel
 
-model = whisper.load_model("medium").to("cuda")
-
+# Run on GPU with FP16
+model = WhisperModel("medium", device="cuda", compute_type="float16")
 
 def transcribe(audio_path):
 
-    result = model.transcribe(
+    segments, info = model.transcribe(
         audio_path,
-
         language="en",
-
-        temperature=0,
-
-        beam_size=3,
-
-        best_of=3,
-
-        fp16=True,
-
-        initial_prompt="""
-        Military communication involving
-        lieutenant general,
-        regiment,
-        division,
-        corps,
-        infantry,
-        gorkha rifles,
-        commanding officer,
-        report immediately,
-        forward ordnance depot,
-        counter insurgency force,
-        adjutant,
-        maratha light infantry,
-        sikh light infantry
-        """
+        temperature=0.0,
+        beam_size=5,
+        condition_on_previous_text=False, # Prevents hallucinations
+        initial_prompt="lieutenant general, subedar major, naib subedar, havildar, naik, sepoy, regiment, division, corps, infantry, gorkha rifles, commanding officer, report immediately, forward ordnance depot, counter insurgency force, adjutant, maratha light infantry, sikh light infantry"
     )
 
-    return result["text"].lower()
+    text = " ".join([segment.text for segment in segments])
+    return text.lower().strip()

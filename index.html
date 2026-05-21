@@ -259,7 +259,7 @@
           if (mediaRecorder && mediaRecorder.state !== "inactive") {
             mediaRecorder.stop();
           }
-        }, 3000);
+        }, 10000); // Increased to 10 seconds
 
       } catch (err) {
         status.innerText = "MIC ACCESS DENIED";
