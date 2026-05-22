@@ -27,6 +27,7 @@ MAPPING = {
     "naib subedar": "nb sub",
 
     "risaldar havildar major": "rhm",
+    "regimental havildar major": "rhm",
     "rison major": "rhm",
     "rison": "rhm",
     "rissan": "rhm",

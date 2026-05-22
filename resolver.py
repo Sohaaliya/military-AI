@@ -46,18 +46,6 @@ def resolve_text(text):
                     i += size
                     matched = True
                     break
-                
-                # 2. Safe Phrase Fuzzy Match (fuzz.ratio prevents false positives)
-                if len(phrase) >= 5:
-                    match = process.extractOne(phrase, MAPPING_KEYS, scorer=fuzz.ratio)
-                    if match:
-                        best_match, score, _ = match
-                        # Catch exact phonetic similarities without scrambling non-military words
-                        if score >= 80:
-                            result.append(MAPPING[best_match])
-                            i += size
-                            matched = True
-                            break
 
         # No match found
         if not matched:
