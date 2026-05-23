@@ -57,7 +57,9 @@ MAPPING = {
 
     "1 armored division": "1 armd div",
     "one armored division": "1 armd div",
+    "one armoured division": "1 armd div",
     "2 mountain division": "2 mtn div",
+    "2 mountain div": "2 mtn div",
     "two mountain division": "2 mtn div",
     "3 infantry division": "3 inf div",
     "three infantry division": "3 inf div",
@@ -119,6 +121,7 @@ MAPPING = {
 
     "jammu and kashmir light infantry": "jak li",
     "jak light infantry": "jak li",
+    "jack light infantry": "jak li",
 
     # 🔵 LOGISTICS
     "ammunition": "amn",
@@ -131,6 +134,7 @@ MAPPING = {
     # 🔵 SPECIAL CASES
     "one by three gorkha rifles": "1/3 gr",
     "13 gorkha rifles": "1/3 gr",
+    "1 by 3 gorkha rifles": "1/3 gr",
 
     "70 medium regiment": "70 med regt",
     "seventy medium regiment":"70 med regt",
